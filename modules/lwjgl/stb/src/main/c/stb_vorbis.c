@@ -565,6 +565,9 @@ enum STBVorbisError
    #if defined(__linux__) || defined(__linux) || defined(__EMSCRIPTEN__)
       #include <alloca.h>
    #endif
+   #if defined(__FreeBSD__)
+      #include <stdlib.h>
+   #endif
 #else // STB_VORBIS_NO_CRT
    #define NULL 0
    #define malloc(s)   0

@@ -950,6 +950,7 @@
                 </not>
             </condition>
 
+<!--
             <parallel threadsPerProcessor="4" failonany="true">
                 <get-release url="linux/x64/lib@{native-library}.so" if:set="auto-natives"/>
                 <get-release url="macosx/x64/lib@{native-library}.dylib" if:set="auto-natives"/>
@@ -997,6 +998,7 @@
                     <windows-content/>
                 </natives-jar>
             </parallel>
+-->
         </sequential>
     </macrodef>
 
