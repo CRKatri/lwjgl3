@@ -11,7 +11,7 @@ import stb.*
 val _stb_vorbis = "STBVorbis".nativeClass(Module.STB, prefixMethod = "stb_vorbis_", prefixConstant = "VORBIS_") {
     includeSTBAPI(
         """#ifdef LWJGL_LINUX
-    #include <alloca.h>
+    #include <stdlib.h>
 #endif
 #include "stb_vorbis.c"""")
 

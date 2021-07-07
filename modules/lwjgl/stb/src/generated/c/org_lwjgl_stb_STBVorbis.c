@@ -6,7 +6,7 @@
 #include "common_tools.h"
 DISABLE_WARNINGS()
 #ifdef LWJGL_LINUX
-    #include <alloca.h>
+    #include <stdlib.h>
 #endif
 #include "stb_vorbis.c"
 ENABLE_WARNINGS()
