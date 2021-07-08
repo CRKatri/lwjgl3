@@ -7,6 +7,7 @@ package org.lwjgl.opengl;
 import org.lwjgl.system.*;
 import org.lwjgl.system.macosx.*;
 import org.lwjgl.system.windows.*;
+import org.lwjgl.system.freebsd.*;
 
 import javax.annotation.*;
 import java.nio.*;
@@ -96,6 +97,7 @@ public final class GL {
         SharedLibrary GL;
         switch (Platform.get()) {
             case LINUX:
+            case FREEBSD:
                 GL = Library.loadNative(GL.class, Configuration.OPENGL_LIBRARY_NAME, "libGL.so.1", "libGL.so");
                 break;
             case MACOSX:
@@ -159,6 +161,7 @@ public final class GL {
                     };
                     break;
                 case LINUX:
+                case FREEBSD:
                     functionProvider = new SharedLibraryGL(OPENGL) {
                         private final long glXGetProcAddress;
 

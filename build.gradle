@@ -51,6 +51,7 @@ println "${deployment.type.name()} BUILD"
 
 enum Platforms {
     LINUX("linux"),
+    FREEBSD("freebsd"),
     MACOS("macos"),
     WINDOWS("windows")
 

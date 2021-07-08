@@ -53,6 +53,7 @@ public final class CL {
         SharedLibrary CL;
         switch (Platform.get()) {
             case LINUX:
+            case FREEBSD:
             case WINDOWS:
                 CL = Library.loadNative(CL.class, Configuration.OPENCL_LIBRARY_NAME, "OpenCL");
                 break;

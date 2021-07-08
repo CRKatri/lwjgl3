@@ -200,6 +200,7 @@
             <src path="${core.kotlin.path}/jni"/>
             <src path="${core.kotlin.path}/libc"/>
             <src path="${core.kotlin.path}/linux"/>
+            <src path="${core.kotlin.path}/freebsd"/>
             <src path="${core.kotlin.path}/macos"/>
             <src path="${core.kotlin.path}/templates"/>
             <src path="${core.kotlin.path}/windows"/>
@@ -814,6 +815,7 @@
 
         <local name="revision"/>
         <property name="revision" value="liblwjgl.so.git" if:set="platform.linux"/>
+        <property name="revision" value="liblwjgl.so.git" if:set="platform.freebsd"/>
         <property name="revision" value="liblwjgl.dylib.git" if:set="platform.macos"/>
         <condition property="revision" value="lwjgl.dll.git" else="lwjgl32.dll.git" if:set="platform.windows">
             <equals arg1="${build.arch}" arg2="x64"/>
@@ -929,6 +931,7 @@
         <attribute name="native-library"/>
         <element name="content" optional="true"/>
         <element name="linux-content" optional="true"/>
+        <element name="freebsd-content" optional="true"/>
         <element name="macos-content" optional="true"/>
         <element name="windows-content" optional="true"/>
         <sequential>
@@ -952,11 +955,13 @@
 
             <parallel threadsPerProcessor="4" failonany="true">
                 <get-release url="linux/x64/lib@{native-library}.so" if:set="auto-natives"/>
+                <get-release url="freebsd/x64/lib@{native-library}.so" if:set="auto-natives"/>
                 <get-release url="macosx/x64/lib@{native-library}.dylib" if:set="auto-natives"/>
                 <get-release url="windows/x64/@{native-library}.dll" if:set="auto-natives"/>
                 <get-release url="windows/x86/@{native-library}32.dll" if:set="auto-natives"/>
 
                 <get-release url="linux/x64/lib@{native-library}.so.git" if:set="git-revision"/>
+                <get-release url="freebsd/x64/lib@{native-library}.so.git" if:set="git-revision"/>
                 <get-release url="macosx/x64/lib@{native-library}.dylib.git" if:set="git-revision"/>
                 <get-release url="windows/x64/@{native-library}.dll.git" if:set="git-revision"/>
                 <get-release url="windows/x86/@{native-library}32.dll.git" if:set="git-revision"/>
@@ -990,6 +995,9 @@
                 <natives-jar name="@{name}" title="@{title}" platform="linux" extension=".so">
                     <linux-content/>
                 </natives-jar>
+                <natives-jar name="@{name}" title="@{title}" platform="freebsd" extension=".so">
+                    <freebsd-content/>
+                </natives-jar>
                 <natives-jar name="@{name}" title="@{title}" platform="macos" extension=".dylib">
                     <macos-content/>
                 </natives-jar>
@@ -1007,6 +1015,7 @@
         <attribute name="native-library" default=""/>
         <element name="natives" optional="true"/>
         <element name="linux" optional="true"/>
+        <element name="freebsd" optional="true"/>
         <element name="macos" optional="true"/>
         <element name="windows" optional="true"/>
         <sequential>
@@ -1024,6 +1033,7 @@
             <release-natives name="@{name}" title="@{title}" native-library="@{native-library}" unless:set="java-only.binding.@{name}">
                 <content><natives/></content>
                 <linux-content><linux/></linux-content>
+                <freebsd-content><freebsd/></freebsd-content>
                 <macos-content><macos/></macos-content>
                 <windows-content><windows/></windows-content>
             </release-natives>
@@ -1201,12 +1211,16 @@
             <natives>
                 <get-release url="linux/x64/libglfw.so"/>
                 <get-release url="linux/x64/libglfw_wayland.so"/>
+                <get-release url="freebsd/x64/libglfw.so"/>
+                <get-release url="freebsd/x64/libglfw_wayland.so"/>
                 <get-release url="macosx/x64/libglfw.dylib"/>
                 <get-release url="windows/x64/glfw.dll"/>
                 <get-release url="windows/x86/glfw32.dll"/>
 
                 <get-release url="linux/x64/libglfw.so.git"/>
                 <get-release url="linux/x64/libglfw_wayland.so.git"/>
+                <get-release url="freebsd/x64/libglfw.so.git"/>
+                <get-release url="freebsd/x64/libglfw_wayland.so.git"/>
                 <get-release url="macosx/x64/libglfw.dylib.git"/>
                 <get-release url="windows/x64/glfw.dll.git"/>
                 <get-release url="windows/x86/glfw32.dll.git"/>
@@ -1250,11 +1264,13 @@
         <release-module package="org.lwjgl.openal" name="openal" title="OpenAL" if:true="${binding.openal}">
             <natives>
                 <get-release url="linux/x64/libopenal.so"/>
+                <get-release url="freebsd/x64/libopenal.so"/>
                 <get-release url="macosx/x64/libopenal.dylib"/>
                 <get-release url="windows/x64/OpenAL.dll"/>
                 <get-release url="windows/x86/OpenAL32.dll"/>
 
                 <get-release url="linux/x64/libopenal.so.git"/>
+                <get-release url="freebsd/x64/libopenal.so.git"/>
                 <get-release url="macosx/x64/libopenal.dylib.git"/>
                 <get-release url="windows/x64/OpenAL.dll.git"/>
                 <get-release url="windows/x86/OpenAL32.dll.git"/>
@@ -1274,16 +1290,19 @@
         <release-module package="org.lwjgl.openvr" name="openvr" title="OpenVR" if:true="${binding.openvr}">
             <natives>
                 <get-release url="linux/x64/liblwjgl_openvr.so"/>
+                <get-release url="freebsd/x64/liblwjgl_openvr.so"/>
                 <get-release url="macosx/x64/liblwjgl_openvr.dylib"/>
                 <get-release url="windows/x64/lwjgl_openvr.dll"/>
                 <get-release url="windows/x86/lwjgl_openvr32.dll"/>
 
                 <get-release url="linux/x64/libopenvr_api.so"/>
+                <get-release url="freebsd/x64/libopenvr_api.so"/>
                 <get-release url="macosx/x64/libopenvr_api.dylib"/>
                 <get-release url="windows/x64/openvr_api.dll"/>
                 <get-release url="windows/x86/openvr_api32.dll"/>
 
                 <get-release url="linux/x64/libopenvr_api.so.git"/>
+                <get-release url="freebsd/x64/libopenvr_api.so.git"/>
                 <get-release url="macosx/x64/libopenvr_api.dylib.git"/>
                 <get-release url="windows/x64/openvr_api.dll.git"/>
                 <get-release url="windows/x86/openvr_api32.dll.git"/>

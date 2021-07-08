@@ -4734,6 +4734,11 @@ static rmtError Remotery_ConsumeMessageQueue(Remotery* rmt)
                 error = Remotery_SendSampleTreeMessage(rmt, message);
                 rmt_EndCPUSample();
                 break;
+
+            case MsgID_None:
+                break;
+            case MsgID_Force32Bits:
+                break;
         }
 
         // Consume the message before reacting to any errors
@@ -4762,6 +4767,8 @@ static void Remotery_FlushMessageQueue(Remotery* rmt)
             // These can be safely ignored
             case MsgID_NotReady:
             case MsgID_LogText:
+            case MsgID_None:
+            case MsgID_Force32Bits:
                 break;
 
             // Release all samples back to their allocators

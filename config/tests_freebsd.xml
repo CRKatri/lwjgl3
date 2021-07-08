@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright LWJGL. All rights reserved.
+  ~ License terms: https://www.lwjgl.org/license
+  -->
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="LWJGL FreeBSD tests">
+    <test name="FreeBSd">
+        <packages>
+            <package name="org.lwjgl.system.freebsd"/>
+        </packages>
+    </test>
+</suite>

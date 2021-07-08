@@ -13,6 +13,9 @@
 #ifdef LWJGL_MACOS
     #include "macOSConfig.h"
 #endif
+#ifdef LWJGL_FREEBSD
+    #include "FreeBSDConfig.h"
+#endif
 
 DISABLE_WARNINGS()
 #include <jni.h>
