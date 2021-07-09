@@ -491,24 +491,5 @@
                 </resourceexists>
             </or>
         </condition>
-
-        <sequential unless:set="native-dependencies-uptodate">
-            <mkdir dir="${lib}/${platform}/x64"/>
-
-            <parallel threadsPerProcessor="4" failonany="true">
-
-            <update-dependency name="Assimp" artifact="${build.arch}/libassimp.so" dest="${lib}" if:true="${binding.assimp}"/>
-            <update-dependency name="bgfx" artifact="${build.arch}/libbgfx.so" dest="${lib}" if:true="${binding.bgfx}"/>
-            <update-dependency name="jemalloc" artifact="${build.arch}/libjemalloc.so" dest="${lib}" if:true="${binding.jemalloc}"/>
-            <update-dependency name="GLFW" artifact="${build.arch}/libglfw.so" dest="${lib}" if:true="${binding.glfw}"/>
-            <update-dependency name="GLFW" artifact="${build.arch}/libglfw_wayland.so" dest="${lib}" if:true="${binding.glfw}"/>
-            <update-dependency name="OpenAL32" artifact="${build.arch}/libopenal.so" dest="${lib}" if:true="${binding.openal}"/>
-            <update-dependency name="OpenVR" artifact="${build.arch}/libopenvr_api.so" dest="${lib}" if:true="${binding.openvr}"/>
-            <update-dependency name="Opus" artifact="${build.arch}/libopus.so" dest="${lib}" if:true="${binding.opus}"/>
-
-            </parallel>
-
-            <touch file="${lib}/touch_${platform}.txt" verbose="false"/>
-        </sequential>
     </target>
 </project>
