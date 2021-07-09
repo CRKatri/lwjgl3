@@ -46,6 +46,7 @@ public final class CUDA {
     static {
         switch (Platform.get()) {
             case LINUX:
+            case FREEBSD:
                 TOOLKIT_DEFAULT_ROOT = "/usr/local/";
                 TOOLKIT_PREFIX = "cuda-";
                 break;

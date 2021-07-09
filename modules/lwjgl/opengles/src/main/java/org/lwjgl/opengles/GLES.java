@@ -80,6 +80,7 @@ public final class GLES {
         SharedLibrary GLES;
         switch (Platform.get()) {
             case LINUX:
+            case FREEBSD:
                 GLES = Library.loadNative(GLES.class, Configuration.OPENGLES_LIBRARY_NAME, "libGLESv2.so.2");
                 break;
             case MACOSX:
