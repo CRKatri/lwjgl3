@@ -1050,69 +1050,6 @@
             <local name="hasMain"/>
             <available file="${module.lwjgl}/@{name}/src/main/java" type="dir" property="hasMain"/>
 
-            <!-- Bundle javadoc -->
-            <!-- This is slow, comment out the following section for fast local builds -->
-            <mkdir dir="${release}/${module}/javadoc"/>
-            <javadoc
-                destdir="${release}/${module}/javadoc"
-                source="9"
-                windowtitle="LWJGL ${build.version} - @{title}"
-                encoding="UTF-8"
-                docencoding="UTF-8"
-                charset="UTF-8"
-                useexternalfile="true"
-                nohelp="true"
-                notree="true"
-                public="true"
-                failonerror="true"
-            >
-                <doctitle><![CDATA[<h1>LWJGL - @{title}</h1>]]></doctitle>
-                <bottom><![CDATA[<i>Copyright LWJGL. All Rights Reserved. <a href="https://www.lwjgl.org/license">License terms</a>.</i>]]></bottom>
-
-                <classpath>
-                    <pathelement path="${module.classpath}"/>
-                    <pathelement path="${lib}/java/jsr305.jar"/>
-                </classpath>
-
-                <fileset dir="${module.lwjgl}/@{name}/src/main/java" includes="**" if:set="hasMain"/>
-                <fileset dir="${module.lwjgl}/@{name}/src/generated/java" includes="**"/>
-
-                <arg value="-XDignore.symbol.file"/> <!-- Suppresses internal API (e.g. Unsafe) usage warnings -->
-
-                <arg line="-Xdoclint:html,reference,syntax"/>
-                <arg line="-Xmaxerrs 1000 -Xmaxwarns 1000"/>
-                <arg line="-notimestamp"/>
-                <arg value="-html5" if:set="jdk9"/>
-                <arg line="-J-Dfile.encoding=UTF8 -J-Dline.separator=&#10;"/>
-                <arg line="--add-exports jdk.javadoc/com.sun.tools.doclets=ALL-UNNAMED" if:set="jdk9"/>
-            </javadoc>
-            <get-quiet name="favicon" url="https://www.lwjgl.org/favicon.ico" dest="${release}/${module}/javadoc"/>
-
-            <java classname="org.lwjgl.system.JavadocPostProcess" failonerror="true">
-                <classpath path="${bin.generator}"/>
-
-                <arg value="${release}/${module}/javadoc"/>
-            </java>
-            <zip destfile="${release}/${module}/${module}-javadoc.jar" basedir="${release}/${module}/javadoc" includes="**" level="9"/>
-            <delete dir="${release}/${module}/javadoc"/>
-
-            <!-- Bundle source -->
-            <quiet>
-                <copy
-                    file ="${module.lwjgl}/@{name}/src/main/resources/module-info.java"
-                    todir="${module.lwjgl}/@{name}/src/generated/java/META-INF/versions/9"
-                    quiet="true"
-                    if:set="jdk9"
-                />
-            </quiet>
-            <jar destfile="${release}/${module}/${module}-sources.jar" level="9">
-                <fileset dir="${module.lwjgl}/@{name}/src/main/java" includes="**" if:set="hasMain"/>
-                <fileset dir="${module.lwjgl}/@{name}/src/generated/java" includes="**"/>
-            </jar>
-            <quiet>
-                <delete dir="${module.lwjgl}/@{name}/src/generated/java/META-INF" quiet="true"/>
-            </quiet>
-
             <!-- Copy license -->
             <quiet>
                 <copy todir="${release}/${module}">
