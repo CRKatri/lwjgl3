@@ -111,7 +111,7 @@
                 <srcfile/>
                 <arg value="-shared"/>
                 <arg value="-m64" if:true="${build.arch.x64}"/>
-                <arg value="-m32" unless:true="${build.arch.x64}"/>
+                <arg value="-m32" if:set="${build.arch.x86}"/>
 
                 <arg line="-z noexecstack"/>
                 <arg line="-O3 -fPIC -pthread -o ${lib}/lib${name}.so"/>
