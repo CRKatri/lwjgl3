@@ -12,7 +12,6 @@
         <attribute name="lang" default="c"/>
         <attribute name="gcc.exec" default="cc"/>
         <attribute name="gpp.exec" default="c++"/>
-        <attribute name="lto" default=""/>
         <attribute name="flags" default=""/>
         <attribute name="simple" default="false"/>
         <attribute name="relative" default="true"/>
@@ -29,7 +28,7 @@
                 <arg line="-c -std=c++11" if:set="cpp"/>
                 <arg line="-m64" if:true="${build.arch.x64}"/>
                 <arg line="-m32 -mfpmath=sse -msse -msse2" if:set="${build.arch.x86}"/>
-                <arg line="-O3 @{lto} -fPIC @{flags} -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -D_GNU_SOURCE -DNDEBUG -DLWJGL_FREEBSD -DLWJGL_${build.arch}"/>
+                <arg line="-O3 -fPIC @{flags} -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=0 -D_GNU_SOURCE -DNDEBUG -DLWJGL_FREEBSD -DLWJGL_${build.arch}"/>
 
                 <arg value="-I/usr/include"/>
                 <arg value="-I/usr/local/include"/>
@@ -83,7 +82,7 @@
             </compile>
 
             <local name="lib-uptodate"/>
-            <uptodate property="lib-uptodate" targetfile="${lib}/lib${name}${LIB_POSTFIX}.so">
+            <uptodate property="lib-uptodate" targetfile="${lib}/lib${name}$.so">
                 <srcfiles file="config/${platform}/build.xml"/>
                 <srcfiles dir="${dest}" includes="**"/>
             </uptodate>
@@ -115,7 +114,7 @@
                 <arg value="-m32" unless:true="${build.arch.x64}"/>
 
                 <arg line="-z noexecstack"/>
-                <arg line="-O3 -flto -fPIC -pthread -o ${lib}/lib${name}${LIB_POSTFIX}.so"/>
+                <arg line="-O3 -fPIC -pthread -o ${lib}/lib${name}.so"/>
 
                 <arg line="-Wl,--no-undefined"/>
                 <arg line="-Wl,--version-script,${version.script}"/>
@@ -124,7 +123,7 @@
             </apply>
 
             <apply executable="strip" failonerror="true" taskname="Symbol strip" unless:set="lib-uptodate">
-                <filelist dir="${lib}" files="lib${name}${LIB_POSTFIX}.so"/>
+                <filelist dir="${lib}" files="lib${name}.so"/>
             </apply>
             <delete file="${lib}/touch_${platform}.txt" quiet="true" unless:set="lib-uptodate"/>
         </sequential>
