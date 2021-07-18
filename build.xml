@@ -1066,20 +1066,6 @@
             </condition>
         </fail>
 
-        <local name="input"/>
-        <input
-            message="It is recommended to build LWJGL releases on JDK 10 or higher. Continue with current JDK?"
-            validargs="y,n"
-            defaultvalue="n"
-            addproperty="input"
-            unless:set="jdk10"
-        />
-        <fail message="Cancelled" unless:set="jdk9">
-            <condition>
-                <equals arg1="n" arg2="${input}"/>
-            </condition>
-        </fail>
-
         <!-- cleanup in case there was an earlier "release" failure -->
         <delete dir="${module.lwjgl}/core/src/generated/java/META-INF"/>
     </target>

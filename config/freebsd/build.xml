@@ -54,7 +54,7 @@
         <attribute name="lang" default="c"/>
         <attribute name="gcc.exec" default="cc"/>
         <attribute name="gpp.exec" default="c++"/>
-        <attribute name="flags" default="-Werror -Wfatal-errors"/>
+        <attribute name="flags" default=""/>
         <attribute name="simple" default="false"/>
         <element name="beforeCompile" optional="true"/>
         <element name="source" optional="true"/>
@@ -142,7 +142,7 @@
         <parallel threadsPerProcessor="2">
 
         <!-- CORE -->
-        <build module="core" flags="-Werror -Wfatal-errors -Wall -Wextra -pedantic">
+        <build module="core" flags="-Wall -Wextra -pedantic">
             <source>
                 <arg value="-I/usr/include"/>
                 <arg value="-I/usr/local/include"/>
@@ -255,7 +255,7 @@
         </build>
 
         <!-- Meow -->
-        <build module="meow" simple="true" flags="-Werror -Wfatal-errors -maes -msse4.2" if:true="${binding.meow}"/>
+        <build module="meow" simple="true" flags="-maes -msse4.2" if:true="${binding.meow}"/>
 
         <!-- NanoVG -->
         <build module="nanovg" simple="true" if:true="${binding.nanovg}">
